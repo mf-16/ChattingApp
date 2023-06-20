@@ -21,12 +21,11 @@ namespace ChatClient.ViewModel
         }
         public void SendMessage(string message)
         {
-            var msg = Encoding.UTF8.GetBytes(message);
+            var msg = Encoding.UTF8.GetBytes("[" + DateTime.Now + "] " + User.Username + ": " +  message);
             Socket.Send(msg);
         }
         public string ReadMessage()
         {
-
             byte[] buffer = new byte[256];
             int bytes = Socket.Receive(buffer);
             return Encoding.UTF8.GetString(buffer);

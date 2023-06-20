@@ -26,11 +26,17 @@ namespace ChatClient
         {
             _connection = connection;
             InitializeComponent();
-            while (true)
-            {
-                var message = _connection.ReadMessage();
-                listBox.Items.Add(message); 
-            }
+            Task.Run(() => {
+                while (true)
+                {
+                    var message = _connection.ReadMessage();
+                    Dispatcher.Invoke(() =>
+                    {
+                        listBox.Items.Add(message);
+                    });
+                }
+            });
+
 
         }
 
