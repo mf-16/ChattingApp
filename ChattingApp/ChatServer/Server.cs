@@ -16,6 +16,9 @@ namespace ChatServer
 
         public static int Port { get; set; } = 5555;
 
+        private static List<Socket> _sockets = new List<Socket>();
+
+
         public static void Start()
         {
            
@@ -25,26 +28,45 @@ namespace ChatServer
             IPEndPoint ep = new IPEndPoint(hostIP, Port);
             socket.Bind(ep);
             socket.Listen(100);
+          
             while (true)
             {
-                byte[] buffer = new byte[256];
                 var connectionSocket = socket.Accept();
-                int bytes = connectionSocket.Receive(buffer);
-                if (bytes > 256)
-                {
-                    Console.WriteLine(Encoding.UTF8.GetString(buffer));
-                }
+                _sockets.Add(connectionSocket);
+                Task.Run(() => HandleClient(connectionSocket));
                 
 
             }
+        }
 
-            
+        public static void HandleClient(Socket socket){
+            byte[] buffer = new byte[256];
+            while (true)
+            {
+                try
+                {
+                    socket.Receive(buffer);
+                    Console.WriteLine(buffer);
+                    BroadcastMessage(buffer);
+                    
+                } catch (SocketException)
+                {
+                    _sockets.Remove(socket);
+                    socket.Close();
+                }
+            }
 
         }
 
-  
+        public static void BroadcastMessage(byte[] message)
+        {
+            foreach (var socket in _sockets)
+            {
+                socket.Send(message);
+            }
 
+        }
 
-
+   
     }
 }
