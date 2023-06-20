@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="ChatWindow" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="Send" HorizontalAlignment="Left" Margin="660,384,0,0" VerticalAlignment="Top" Width="140" Height="50"/>
+        <TextBox Name="messageText" TextWrapping="Wrap" Text="TextBox" Height="50" Width="660" Margin="0,384,141,0" TextChanged="TextBox_TextChanged"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=0}" Margin="0,14,0,50" Height="370" Width="800" SelectionChanged="ListBox_SelectionChanged"/>
+
     </Grid>
 </Window>

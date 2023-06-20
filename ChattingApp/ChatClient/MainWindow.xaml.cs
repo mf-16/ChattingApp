@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ChatClient.Model;
+using ChatClient.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +34,10 @@ namespace ChatClient
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var chatWindow = new ChatWindow();
+            var username = text.Text;
+            var user = new User(username);
+            var connection = new IO(user);
+            var chatWindow = new ChatWindow(connection);
             chatWindow.Show();
             this.Close();
         }
