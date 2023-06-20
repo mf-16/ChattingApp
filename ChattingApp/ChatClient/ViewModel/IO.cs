@@ -19,10 +19,17 @@ namespace ChatClient.ViewModel
             Socket = ServerConnector.Connect();
 
         }
-        public async Task SendMessageAsync(string message)
+        public void SendMessage(string message)
         {
             var msg = Encoding.UTF8.GetBytes(message);
-            await Socket.SendAsync(msg);
+            Socket.Send(msg);
+        }
+        public string ReadMessage()
+        {
+
+            byte[] buffer = new byte[256];
+            int bytes = Socket.Receive(buffer);
+            return Encoding.UTF8.GetString(buffer);
         }
 
     }

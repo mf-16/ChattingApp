@@ -26,12 +26,11 @@ namespace ChatClient
         {
             _connection = connection;
             InitializeComponent();
-        }
-
-        private async Task Button_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            var message = messageText.Text;
-            await _connection.SendMessageAsync(message);
+            while (true)
+            {
+                var message = _connection.ReadMessage();
+                listBox.Items.Add(message); 
+            }
 
         }
 
@@ -44,5 +43,12 @@ namespace ChatClient
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var message = messageText.Text;
+            _connection.SendMessage(message);
+        }
+        
     }
 }
