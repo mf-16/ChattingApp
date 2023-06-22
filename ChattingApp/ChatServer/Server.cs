@@ -51,7 +51,9 @@ namespace ChatServer
                     
                 } catch (SocketException)
                 {
+
                     _sockets.Remove(socket);
+                    socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
                 }
             }
