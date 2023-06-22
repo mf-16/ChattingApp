@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 
 namespace ChatClient.ViewModel
 {
@@ -17,7 +18,13 @@ namespace ChatClient.ViewModel
         { 
             User = user;
             Socket = ServerConnector.Connect();
+            ConnectMessage();
 
+        }
+        private void ConnectMessage()
+        {
+            var msg = Encoding.UTF8.GetBytes(User.Id.ToString() + ";" + User.Username);
+            Socket.Send(msg);
         }
         public void SendMessage(string message)
         {

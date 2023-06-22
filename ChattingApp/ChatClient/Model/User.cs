@@ -8,11 +8,11 @@ namespace ChatClient.Model
 {
     public class User
     {
-        private Guid _id;
+        public Guid Id { get; }
         public string Username { get; set; }
         public User(string username)
         {
-            _id = Guid.NewGuid();
+            Id = Guid.NewGuid();
             Username = username;
         }
     }

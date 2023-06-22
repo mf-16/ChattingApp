@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ChatServer
 {
@@ -15,8 +16,8 @@ namespace ChatServer
     {
 
         public static int Port { get; set; } = 5555;
-
-        private static List<Socket> _sockets = new List<Socket>();
+        private static Dictionary<string, Socket> _socketMap = new Dictionary<string, Socket>();
+        private static object _lockObject = new object();   
 
 
         public static void Start()
@@ -31,7 +32,6 @@ namespace ChatServer
             while (true)
             {
                 var connectionSocket = socket.Accept();
-                _sockets.Add(connectionSocket);
                 Task.Run(() => HandleClient(connectionSocket));
                 
 
@@ -40,29 +40,54 @@ namespace ChatServer
 
         public static void HandleClient(Socket socket){
             byte[] buffer = new byte[256];
+            socket.Receive(buffer);
+            var firstMessage = Encoding.UTF8.GetString(buffer).Split(";");
+            var id = firstMessage[0];
+            var name = firstMessage[1];
+            Console.WriteLine(id);
+            Console.WriteLine(name);
+
+            lock (_lockObject)
+            {
+                _socketMap.Add(id, socket);
+            }
+            Console.WriteLine(name + " has connected!");
+            BroadcastMessage(name + " has connected!");
+            Array.Clear(buffer);
+            
             while (true)
             {
                 try
                 {
                     socket.Receive(buffer);
-                    Console.WriteLine(Encoding.UTF8.GetString(buffer));
-                    BroadcastMessage(buffer);
+                    var message = Encoding.UTF8.GetString(buffer);
+                    Console.WriteLine(message);
+                    BroadcastMessage(message);
                     Array.Clear(buffer);
                     
                 } catch (SocketException)
                 {
-                    _sockets.Remove(socket);
-                    socket.Close();
+                    Console.WriteLine(name + " has disconnected!");
+                    lock (_lockObject)
+                    {
+                        _socketMap.Remove(id);
+                        BroadcastMessage(name + " has disconnected!");
+                        socket.Shutdown(SocketShutdown.Both);
+                        socket.Close();
+                        return;
+                    }
+                  
                 }
             }
 
         }
 
-        public static void BroadcastMessage(byte[] message)
+        public static void BroadcastMessage(string message)
         {
-            foreach (var socket in _sockets)
+            
+            foreach (var socket in _socketMap.Values)
             {
-                socket.Send(message);
+                socket.Send(Encoding.UTF8.GetBytes(message));
             }
 
         }
