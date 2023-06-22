@@ -46,5 +46,19 @@ namespace ChatClient
         {
 
         }
+
+        private void Button_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                e.Handled = true;
+                var username = text.Text;
+                var user = new User(username);
+                var connection = new IO(user);
+                var chatWindow = new ChatWindow(connection);
+                chatWindow.Show();
+                this.Close();
+            }
+        }
     }
 }

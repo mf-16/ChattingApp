@@ -21,10 +21,13 @@ namespace ChatClient
                 while (true)
                 {
                     var message = _connection.ReadMessage();
-                    Dispatcher.Invoke(() =>
+                    if (message.Length > 0)
                     {
-                        listBox.Items.Add(message);
-                    });
+                        Dispatcher.Invoke(() =>
+                        {
+                            listBox.Items.Add(message);
+                        });
+                    }
                 }
             });
         }

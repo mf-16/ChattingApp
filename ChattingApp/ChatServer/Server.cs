@@ -38,10 +38,11 @@ namespace ChatServer
             }
         }
 
-        public static void HandleClient(Socket socket){
-            byte[] buffer = new byte[256];
-            socket.Receive(buffer);
-            var firstMessage = Encoding.UTF8.GetString(buffer).Split(";");
+        public static void HandleClient(Socket socket)
+        {
+            byte[] firstBuffer = new byte[256];
+            socket.Receive(firstBuffer);
+            var firstMessage = Encoding.UTF8.GetString(firstBuffer).Split(";");
             var id = firstMessage[0];
             var name = firstMessage[1];
             Console.WriteLine(id);
@@ -53,19 +54,18 @@ namespace ChatServer
             }
             Console.WriteLine(name + " has connected!");
             BroadcastMessage(name + " has connected!");
-            Array.Clear(buffer);
-            
+
             while (true)
             {
                 try
                 {
+                    byte[] buffer = new byte[256];
                     socket.Receive(buffer);
                     var message = Encoding.UTF8.GetString(buffer);
                     Console.WriteLine(message);
                     BroadcastMessage(message);
-                    Array.Clear(buffer);
-                    
-                } catch (SocketException)
+                }
+                catch (SocketException)
                 {
                     Console.WriteLine(name + " has disconnected!");
                     lock (_lockObject)
@@ -76,11 +76,11 @@ namespace ChatServer
                         socket.Close();
                         return;
                     }
-                  
                 }
             }
-
         }
+
+
 
         public static void BroadcastMessage(string message)
         {

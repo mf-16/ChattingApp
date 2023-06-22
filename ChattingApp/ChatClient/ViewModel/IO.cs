@@ -34,7 +34,7 @@ namespace ChatClient.ViewModel
         public string ReadMessage()
         {
             byte[] buffer = new byte[256];
-            int bytes = Socket.Receive(buffer);
+            Socket.Receive(buffer);
             return Encoding.UTF8.GetString(buffer);
         }
 

@@ -46,7 +46,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <TextBox Name="text" Style="{StaticResource ModernTextBoxStyle}" HorizontalAlignment="Center" Margin="0,148,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400" Height="60" TextChanged="TextBox_TextChanged" FontSize="24" TextAlignment="Center"/>
+        <TextBox Name="text" Style="{StaticResource ModernTextBoxStyle}" HorizontalAlignment="Center" Margin="0,148,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="400" Height="60" TextChanged="TextBox_TextChanged" FontSize="24" TextAlignment="Center" KeyDown="Button_KeyDown"/>
 
         <Button Content="Connect" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" Height="74" Width="160" Click="Button_Click">
             <Button.Style>
