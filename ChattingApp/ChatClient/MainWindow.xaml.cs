@@ -41,5 +41,10 @@ namespace ChatClient
             chatWindow.Show();
             this.Close();
         }
+
+        private void text_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

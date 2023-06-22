@@ -18,7 +18,7 @@ namespace ChatClient.ViewModel
         {
             var socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
             IPAddress[] addresses = Dns.GetHostEntry(IPAddress.Loopback).AddressList;
-            IPAddress hostIP = addresses[0];
+            IPAddress hostIP = IPAddress.Parse("192.168.1.26");
             IPEndPoint ep = new IPEndPoint(hostIP, Port);
             socket.Connect(ep);
             return socket;
