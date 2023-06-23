@@ -56,7 +56,6 @@ namespace ChatClient
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
-            _connection.Socket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
             _connection.Socket.Close();
             Close();
         }
