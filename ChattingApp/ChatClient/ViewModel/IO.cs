@@ -12,10 +12,10 @@ namespace ChatClient.ViewModel
 {
     public class IO
     {
-        public User User{get; set;}
-        public Socket Socket { get; set;}
-        public IO(User user) 
-        { 
+        public User User { get; set; }
+        public Socket Socket { get; set; }
+        public IO(User user)
+        {
             User = user;
             Socket = ServerConnector.Connect();
             ConnectMessage();
@@ -28,7 +28,7 @@ namespace ChatClient.ViewModel
         }
         public void SendMessage(string message)
         {
-            var msg = Encoding.UTF8.GetBytes("[" + DateTime.Now + "] " + User.Username + ": " +  message);
+            var msg = Encoding.UTF8.GetBytes("[" + DateTime.Now + "] " + User.Username + ": " + message);
             Socket.Send(msg);
         }
         public string ReadMessage()

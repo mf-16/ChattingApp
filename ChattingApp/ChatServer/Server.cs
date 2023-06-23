@@ -72,7 +72,6 @@ namespace ChatServer
                     {
                         _socketMap.Remove(id);
                         BroadcastMessage(name + " has disconnected!");
-                        socket.Shutdown(SocketShutdown.Both);
                         socket.Close();
                         return;
                     }

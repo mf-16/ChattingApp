@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ChatClient
+namespace ChatClient.View
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -39,7 +39,7 @@ namespace ChatClient
             var connection = new IO(user);
             var chatWindow = new ChatWindow(connection);
             chatWindow.Show();
-            this.Close();
+            Close();
         }
 
         private void text_TextChanged(object sender, TextChangedEventArgs e)
@@ -57,7 +57,7 @@ namespace ChatClient
                 var connection = new IO(user);
                 var chatWindow = new ChatWindow(connection);
                 chatWindow.Show();
-                this.Close();
+                Close();
             }
         }
     }

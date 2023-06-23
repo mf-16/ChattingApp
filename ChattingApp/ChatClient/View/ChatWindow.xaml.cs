@@ -1,11 +1,11 @@
-﻿using ChatClient.ViewModel;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ChatClient.ViewModel;
 
-namespace ChatClient
+namespace ChatClient.View
 {
     public partial class ChatWindow : Window
     {
@@ -55,7 +55,7 @@ namespace ChatClient
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             _connection.Socket.Close();
             Close();
         }
